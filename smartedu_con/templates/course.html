@@ -16,13 +16,22 @@
 						</div>
 						<div class="post-content">
 							<div class="post-date">
-								<span class="day">30</span>
-								<span class="month">Nov</span>
+							{% if user.is_authenticated%}
+								{%if course in enrolled_courses %}	
+									<button type="submit" class="btn btn-outline-success rounded-0" data-toggle="modal" data-target="#releaseModal">
+									<span>RELEASE</span>
+								
+								{% else %}
+								<button type="submit" class="btn btn-outline-success rounded-0" data-toggle="modal" data-target="#enrolledModal">
+								<span>ENROLL</span>
+								{%endif%}
+							{% endif %}
 							</div>
+							
 							<div class="meta-info-blog">
-								<span><i class="fa fa-calendar"></i> <a href="#">May 11, 2015</a> </span>
-								<span><i class="fa fa-tag"></i>  <a href="#">News</a> </span>
-								<span><i class="fa fa-comments"></i> <a href="#">12 Comments</a></span>
+								<span><i class="fa fa-calendar"></i>{{course.date|date:"d M Y"}} </span>
+							
+								<span><i class="fa fa-comments"></i>Students</span>
 							</div>
 							<div class="blog-title">
 								<h2><a href="#" title="">{{course.title}}</a></h2>
@@ -99,7 +108,61 @@
             </div><!-- end row -->
         </div><!-- end container -->
     </div><!-- end section -->
-	
+<div class="footer-modal">
+<div id="enrolledModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
 
-   
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+	    <h4 class="modal-title">Modal Header</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      
+      </div> 
+      <div class="modal-body">
+        <h1>{{course.name}}</h1>
+      </div>
+      <div class="modal-footer">
+	  	<form action="{% url 'enroll_the_course' %}" method="POST">
+		  {% csrf_token %}
+		  	<input type="hidden" value={{course.id}} name="course_id">
+			<input type="hidden" value={{user.id}} name="user_id">
+        	<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+			<input type="submit" class="btn btn-success"  value="I am sure">
+		</form>
+	  </div>
+    </div>
+	
+  </div>
+</div>
+</div>
+
+<div class="footer-modal">
+<div id="releaseModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+	    <h4 class="modal-title">You are about to release {{course.name}}</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      
+      </div> 
+      <div class="modal-body">
+        <h1>{{course.name}}</h1>
+      </div>
+      <div class="modal-footer">
+	  	<form action="{% url 'release_the_course' %}" method="POST">
+		  {% csrf_token %}
+		  	<input type="hidden" value={{course.id}} name="course_id">
+			<input type="hidden" value={{user.id}} name="user_id">
+        	<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+			<input type="submit" class="btn btn-danger"  value="I am sure">
+		</form>
+	  </div>
+    </div>
+	
+  </div>
+</div>
+</div>
     {% include 'partials/_footerPartial.html' %}

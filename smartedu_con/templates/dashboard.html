@@ -1,0 +1,66 @@
+{% include 'partials/_headerPartial.html' %} {% load static %}
+<div class="all-title-box">
+  <div class="container text-center">
+    <h1>
+      {{user.username}}
+    </h1>
+  </div>
+</div>
+
+<div id="overviews" class="section wb">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 blog-post-single">
+        <div class="blog-author">
+          <div class="author-bio">
+            <h3 class="author_name"><a href="#">{{user.first_name}}</a></h3>
+            <h5>{{user.last_name}}</h5>
+          </div>
+         
+        </div>
+      </div>
+      <!-- end col -->
+
+      <div class="row">
+        <div class="col-lg-12">
+          <h2 class="text-center my-5">Courses Enrolled By  {{user.username}}</h2>
+        </div>
+        {% for course in courses %}
+        <div class="col-lg-4 col-md-6 col-12">
+          <div class="course-item">
+            <div class="image-blog">
+              <img src="{{course.image.url}}" alt="" class="img-fluid" />
+            </div>
+            <div class="course-br">
+              <div class="course-title">
+                <h2><a href="{% url 'course_detail' course.id %}" title="">{{course.name}}</a></h2>
+              </div>
+              <div class="course-desc">
+                <p>
+                  {{course.desc}}
+                </p>
+              </div>
+              
+            </div>
+            <div class="course-meta-bot">
+              <ul>
+               	<span><i class="fa fa-calendar"></i>{{course.date|date:"d M Y"}} </span>
+							
+								<span><i class="fa fa-comments"></i>Students</span>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- end col -->
+
+        {%endfor%}
+      </div>
+      <!-- end row -->
+    </div>
+    <!-- end row -->
+  </div>
+  <!-- end container -->
+</div>
+<!-- end section -->
+
+{% include 'partials/_footerPartial.html' %}
