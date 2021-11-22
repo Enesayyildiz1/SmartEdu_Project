@@ -54,7 +54,11 @@ def courselist(request,category_slug=None,tag_slug=None):
 def course_detail(request,course_id):
     current_user=request.user
     course=Course.objects.get(id=course_id)
-    enrolled_courses=current_user.courses_enrolled.all()
+    courses=Course.objects.all()
+    if current_user.is_authenticated:
+        enrolled_courses=current_user.courses_enrolled.all()
+    else:
+        enrolled_courses=courses
     logging.warning(course.teacher)
     context={
         'course':course,
